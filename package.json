@@ -1,0 +1,34 @@
+{
+  "name": "forms_glpi_new",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "prd": "tsx watch src/server.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.4.1",
+  "dependencies": {
+    "@fastify/cors": "^10.0.2",
+    "@fastify/swagger": "^9.4.2",
+    "@fastify/swagger-ui": "^5.2.2",
+    "@prisma/client": "^6.4.0",
+    "axios": "^1.7.9",
+    "dotenv": "^16.4.7",
+    "fastify": "^5.2.1",
+    "fastify-type-provider-zod": "^4.0.2",
+    "mssql": "^11.0.1",
+    "prisma": "^6.4.0",
+    "zod": "^3.24.2",
+    "zod-to-json-schema": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/mssql": "^9.1.7",
+    "@types/node": "^22.13.4",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}

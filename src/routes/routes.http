@@ -1,0 +1,52 @@
+GET http://10.10.110.103:3333/answers/53
+
+###
+
+GET http://10.10.110.103:3333/ticketsValidated/criarOp
+
+###
+POST http://10.10.110.103:3333/solicitaValidacao/26515
+Content-Type: application/json
+
+{
+    "conteudo": "valida zé do mamão",
+    "user_validate_id": 148,
+    "group": ""
+}
+
+
+###
+GET http://10.10.110.103:3333/validacoesTicket/26594
+
+
+###
+GET http://10.10.110.103:3333/buscaIdGrupo?nome=Fiscal
+
+
+###
+POST http://10.10.110.103:3333/adicionaAcompanhamento/26653
+Content-Type: application/json
+
+{
+    "content": "Teste novo acompanhamento",
+    "error":"",
+    "type": "ie",
+    "alert": "",
+    "solve": false,
+    "close": false
+}
+
+###
+POST http://10.10.110.103:3333/novoTicket
+Content-Type: application/json
+
+{
+    "name": "Teste Chamado API",
+    "content": "Teste zé da manga",
+    "itilcategories_id": "188",
+    "_users_id_requester": "277",
+    "_groups_id_assign": "3",
+    "type": "armazenamento"
+}
+
+
