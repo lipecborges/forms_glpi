@@ -11,7 +11,6 @@ export const getAnswers = async (req: FastifyRequest, reply: FastifyReply) => {
     if (id) {
 
         const ticketsId = id.split(',').map(id => parseInt(id.trim())).filter(id => !isNaN(id));
-
         const answersId = await getAnswersByTicketIds(ticketsId);
         // Mapeia o array de objetos para um array de IDs
         const answerId = answersId.map(item => item.items_id)
@@ -42,7 +41,7 @@ export const getAnswers = async (req: FastifyRequest, reply: FastifyReply) => {
             return acc;
         }, []);
 
-        console.log('groupedAnswers:', JSON.stringify(groupedAnswers, null, 2));
+        //console.log('groupedAnswers:', JSON.stringify(groupedAnswers, null, 2));
 
 
         return reply.status(200).send(groupedAnswers);

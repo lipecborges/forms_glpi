@@ -1,5 +1,8 @@
-import dotenv from 'dotenv';
-dotenv.config(); // Carrega as variáveis de ambiente do arquivo .env
+import * as dotenv from 'dotenv';
+import * as dotenvExpand from 'dotenv-expand';
+
+const env = dotenv.config();
+dotenvExpand.expand(env);
 
 type DbConfig = {
   host: string | undefined;
