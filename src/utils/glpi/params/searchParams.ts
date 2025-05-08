@@ -60,6 +60,13 @@ export const modRegInfoParams = (): SearchParams => ({
     'criteria[2][value]': 'Modificar Registro Info', // Valor do campo Modelo ITIL
 });
 
+export const dtEntregaAvParams = (): SearchParams => ({
+    'criteria[2][link]': 'AND',
+    'criteria[2][field]': 7, // Campo Modelo ITIL no chamado
+    'criteria[2][searchtype]': 'contains',
+    'criteria[2][value]': '2 - Ti - Sistemas > Suporte Interno > Automações > GLPI x SAP > Comercial > Alterar Data de Entrega da Loja', // Valor do campo Modelo ITIL
+});
+
 export const pendingValidationParams = (): SearchParams => ({
     'criteria[0][field]': 55, // Campo status da aprovação
     'criteria[0][searchtype]': 'equals',

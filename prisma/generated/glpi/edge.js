@@ -9536,7 +9536,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/opt/api/forms_glpi_new/prisma/generated/glpi",
+      "value": "/opt/api/desenvolvimento/forms_glpi/prisma/generated/glpi",
       "fromEnvVar": null
     },
     "config": {
@@ -9554,11 +9554,11 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/opt/api/forms_glpi_new/prisma/schema-glpi.prisma",
+    "sourceFilePath": "/opt/api/desenvolvimento/forms_glpi/prisma/schema-glpi.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null,
+    "rootEnvPath": "../../../.env",
     "schemaEnvPath": "../../../.env"
   },
   "relativePath": "../..",

@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest, FastifySchema, FastifyTypeProviderDefault, RawServerDefault, RouteGenericInterface } from 'fastify';
 import { ticketSchema, TicketSchema, SolTicketSchema, SolicitaValidacaoSchema, AdicionaAcompanhamentoSchema, NewTicketSchema } from '../../schemas/glpi/ticketSchema';
 import { SchemaResponse } from '../../schemas/generalSchemas';
-import { criarOpParams, ieParams, orderParams, getUserParams, estornaOpParams, modRegInfoParams, newStatusParam, validateParams, testeWPParams } from '../../utils/glpi/params/searchParams';
+import { criarOpParams, ieParams, orderParams, getUserParams, estornaOpParams, modRegInfoParams, newStatusParam, validateParams, testeWPParams, dtEntregaAvParams } from '../../utils/glpi/params/searchParams';
 import { searchItems, getUserInfo } from '../../services/glpi/searchService';
 import { getApprovalDate } from '../../utils/glpi/functions/getApprovalDate';
 import { generateErrorContentOp, generateSuccessContentOp, generateErrorContentIe, generateSuccessContentIe, generateSuccessContentEstornaOp, generateErrorContentEstornaOp, generateSuccessContentModRegInfo, generateErrorContentModRegInfo } from '../../utils/glpi/html/ticketHtml';
@@ -46,10 +46,10 @@ export const getTicketsValidated = async (req: FastifyRequest, res: FastifyReply
         case 'regInfo':
             paramsByType = modRegInfoParams();
             break;
-        case 'teste':
-            console.log('entrou no teste')
-            paramsByType = testeWPParams();
-            needValidate = validateParams()
+        case 'dtentregaav':
+            console.log('entrou no dtentregaav')
+            paramsByType = dtEntregaAvParams();
+            //needValidate = validateParams();
             break;
         default:
             response.status = 400;
@@ -104,19 +104,18 @@ export const getTicketsValidated = async (req: FastifyRequest, res: FastifyReply
             name: `${userInfo['1']} ${userInfo['34']}`,
             email: userInfo['5'],
             phone: userInfo['6'],
+            location: userInfo['3'],
         },
     }));
 
     // Valida os dados mapeados com o esquema ticketSchema
     const validationResult = ticketSchema.safeParse(mappedTickets);
-    console.log('mappedTickets', mappedTickets)
+    //console.log('mappedTickets', mappedTickets)
 
     console.log('validationResult', validationResult)
     if (!validationResult.success) {
         return res.status(400).send({ error: 'Validation failed', details: validationResult.error.errors });
     }
-
-    console.log('chegou aqui2')
     return res.status(200).send(validationResult.data);
 };
 
