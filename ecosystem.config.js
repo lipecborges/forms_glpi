@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "forms_glpi_new",
+      name: "forms_glpi",
       script: "./node_modules/.bin/tsx",
       args: "src/server.ts",
       instances: 1,
