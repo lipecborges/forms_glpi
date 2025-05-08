@@ -49,7 +49,7 @@ export const getTicketsValidated = async (req: FastifyRequest, res: FastifyReply
         case 'dtentregaav':
             console.log('entrou no dtentregaav')
             paramsByType = dtEntregaAvParams();
-            //needValidate = validateParams();
+            needValidate = validateParams();
             break;
         default:
             response.status = 400;
