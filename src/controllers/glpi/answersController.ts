@@ -17,7 +17,7 @@ export const getAnswers = async (req: FastifyRequest, reply: FastifyReply) => {
         // Busca as respostas do formulário utilizando os ID das resposta, pego no ticket.
         const answers = await getAnswersById(answerId);
 
-        // return console.log('answers:', JSON.stringify(answers, null, 2));
+        //return console.log('answers:', JSON.stringify(answers, null, 2));
         const translatedAnswers = await translateAnswers(answers);
 
         // Agrupa as respostas traduzidas por FORM_ANSWER_ID
