@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "forms_glpi_new",
+      name: "forms_glpi_dev",
       script: "./node_modules/.bin/tsx",
       args: "src/server.ts",
       instances: 1,
@@ -11,7 +11,7 @@ module.exports = {
       autorestart: true,
       max_memory_restart: "200M",
       env: {
-        NODE_ENV: "production"
+        NODE_ENV: "development"
       }
     }
   ]

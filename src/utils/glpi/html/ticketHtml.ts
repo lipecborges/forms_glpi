@@ -93,6 +93,27 @@ export const generateErrorContentModRegInfo = (error: SolTicketError) => `
     </div>
 `;
 
+// Sucesso - Data Entrega Av
+export const generateSuccessContentDtEntregAv = (conteudo: SolTicketConteudo) => `
+    <div style="font-family: 'Segoe UI', Arial, sans-serif; color: #333; border: 2px solid #28a745; border-radius: 10px;
+        padding: 25px; background-color: #f0fdf4; text-align: center; max-width: 480px; margin: 30px auto; box-shadow: 0 6px
+        12px rgba(0, 0, 0, 0.08);">
+        <h2 style="font-size: 20px; font-weight: 600; color: #14532d; margin-bottom: 12px;">✔ Data de Entrega do AV atualizada com Sucesso</h2>
+        <p style="font-size: 17px; color: #166534; margin-bottom: 15px;"><strong style="color: #052e16;">${conteudo}</strong></p>
+        <small style="font-size: 12px; color: #64748b;">Este registro foi atualizado automaticamente pelo sistema.</small>
+    </div>
+`;
+// Erro - Data Entrega Av
+export const generateErrorContentDtEntregAv = (error: SolTicketError) => `
+    <div style="font-family: 'Segoe UI', Arial, sans-serif; color: #333; border: 2px solid #dc3545; border-radius: 10px;
+        padding: 25px; background-color: #fef2f2; text-align: center; max-width: 480px; margin: 30px auto; box-shadow: 0 6px
+        12px rgba(0, 0, 0, 0.08);">
+        <h2 style="font-size: 20px; font-weight: 600; color: #b91c1c; margin-bottom: 12px;">✖ Erro ao Atualizar Data de Entrega do AV</h2>
+        <p style="font-size: 17px; color: #991b1b; margin-bottom: 15px;"><strong style="color: #7f1d1d;">${error}</strong></p>
+        <small style="font-size: 12px; color: #64748b;">Entre em contato com o suporte para resolver este problema.</small>
+    </div>
+`;
+
 // Reprovado
 export const generateReprovedContent = (user_name: string) => `
     <div style="font-family: 'Segoe UI', Arial, sans-serif; color: #333; border: 2px solid #dc3545; border-radius: 10px;

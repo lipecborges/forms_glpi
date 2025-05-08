@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { ticketFollowUp, updateTicket, solTicket } from '../../../services/glpi/ticketsService';
-import { generateErrorContentEstornaOp, generateErrorContentIe, generateErrorContentModRegInfo, generateErrorContentOp, generateSuccessContentEstornaOp, generateSuccessContentIe, generateSuccessContentModRegInfo, generateSuccessContentOp } from '../html/ticketHtml';
+import { generateErrorContentDtEntregAv, generateErrorContentEstornaOp, generateErrorContentIe, generateErrorContentModRegInfo, generateErrorContentOp, generateSuccessContentDtEntregAv, generateSuccessContentEstornaOp, generateSuccessContentIe, generateSuccessContentModRegInfo, generateSuccessContentOp } from '../html/ticketHtml';
 import { ticketFollowUpPayload, createSolutionPayload, createSolutionDatePayload, createClosePayload } from '../payloads/ticketPayloads';
 import { getApprovalDate } from './getApprovalDate';
 import { Type, Error, Content, Alert } from '../../../schemas/glpi/ticketSchema';
@@ -29,6 +29,8 @@ export const generateContent = (type: Type, error: Error, content: Content, aler
             return error ? generateErrorContentEstornaOp(error) : generateSuccessContentEstornaOp(content);
         case 'regInfo':
             return error ? generateErrorContentModRegInfo(error) : generateSuccessContentModRegInfo(content);
+        case 'dtentregaav':
+            return error ? generateErrorContentDtEntregAv(error) : generateSuccessContentDtEntregAv(content);
         default:
             return '';
     }

@@ -112,7 +112,7 @@ export const getTicketsValidated = async (req: FastifyRequest, res: FastifyReply
     const validationResult = ticketSchema.safeParse(mappedTickets);
     //console.log('mappedTickets', mappedTickets)
 
-    //console.log('validationResult', validationResult)
+    console.log('validationResult', validationResult)
     if (!validationResult.success) {
         return res.status(400).send({ error: 'Validation failed', details: validationResult.error.errors });
     }
