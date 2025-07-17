@@ -5,7 +5,7 @@ import { criarOpParams, ieParams, orderParams, getUserParams, estornaOpParams, m
 import { searchItems, getUserInfo } from '../../services/glpi/searchService';
 import { getApprovalDate } from '../../utils/glpi/functions/getApprovalDate';
 import { generateErrorContentOp, generateSuccessContentOp, generateErrorContentIe, generateSuccessContentIe, generateSuccessContentEstornaOp, generateErrorContentEstornaOp, generateSuccessContentModRegInfo, generateErrorContentModRegInfo } from '../../utils/glpi/html/ticketHtml';
-import { createSolutionPayload, createClosePayload, createSolutionDatePayload, createRequestValidationPayload, ticketFollowUpPayload, createNewTicketPayload } from '../../utils/glpi/payloads/ticketPayloads';
+import { createSolutionPayload, createClosePayload, createSolutionDatePayload, createRequestValidationPayload, ticketFollowUpPayload, createNewTicketPayload, addTechnicalGroupPayload } from '../../utils/glpi/payloads/ticketPayloads';
 import { updateTicket, solTicket, reqTicketValidation, validationsTicket, ticketFollowUp, newTicket } from '../../services/glpi/ticketsService';
 import { getGroupInfo, getUserGroups } from '../../services/glpi/groupsService';
 import type { Ticket } from '../../types/glpi/interfaces';
@@ -257,7 +257,7 @@ export const reqValidateTicket = async (req: FastifyRequest, res: FastifyReply) 
         } as SchemaResponse);
     }
 
-    console.log('user_validate_id', user_validate_id)
+
     if (!user_validate_id && !group) {
         return res.status(400).send({
             status: 400,
@@ -267,8 +267,9 @@ export const reqValidateTicket = async (req: FastifyRequest, res: FastifyReply) 
 
 
     let usersId
+    let groupId
     if (group) {
-        const groupId = await getGroupIdByName(group)
+        groupId = await getGroupIdByName(group)
 
         if (!groupId) {
             return res.status(400).send({
@@ -289,8 +290,6 @@ export const reqValidateTicket = async (req: FastifyRequest, res: FastifyReply) 
         usersId = [user_validate_id];
     }
 
-    console.log('userIds', usersId)
-
     // LOOP para enviar a solicitação de validação para cada usuário do grupo, ou para o usuário caso seja somente 1 
     const results = [];
     for (const userId of usersId) {
@@ -299,6 +298,15 @@ export const reqValidateTicket = async (req: FastifyRequest, res: FastifyReply) 
         results.push(requestTicketValidation);
     }
 
+    let grupoTecnicoPayload;
+    if (groupId) {
+        grupoTecnicoPayload = addTechnicalGroupPayload(groupId);
+        const adicionaGrupoTecnico = await updateTicket(ticketId, grupoTecnicoPayload);
+
+        if (errorStatuses.includes(adicionaGrupoTecnico.status)) {
+            return res.status(adicionaGrupoTecnico.status).send(adicionaGrupoTecnico);
+        }
+    }
 
     return res.status(200).send({
         status: 200,
