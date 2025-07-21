@@ -51,6 +51,10 @@ export const getTicketsValidated = async (req: FastifyRequest, res: FastifyReply
             paramsByType = dtEntregaAvParams();
             needValidate = validateParams();
             break;
+        case 'dtentregaov':
+            paramsByType = dtEntregaOvParams();
+            "needValidate = validateParams();
+            break;
         default:
             response.status = 400;
             response.message = 'Tipo de ticket inválido';
@@ -347,8 +351,6 @@ export const getValidationsTicket = async (req: FastifyRequest, res: FastifyRepl
                 }
             })
         );
-
-        console.log('chegou depois do transformed', transformedValidations);
 
         const grupoIdValidacao: number = await getGroupIdByName(grupo);
         const statusValidacaoGrupo = verificaValidacaoGrupo(transformedValidations, grupoIdValidacao);
