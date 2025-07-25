@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest, FastifySchema, FastifyTypeProviderDefault, RawServerDefault, RouteGenericInterface } from 'fastify';
 import { ticketSchema, TicketSchema, SolTicketSchema, SolicitaValidacaoSchema, AdicionaAcompanhamentoSchema, NewTicketSchema } from '../../schemas/glpi/ticketSchema';
 import { SchemaResponse } from '../../schemas/generalSchemas';
-import { criarOpParams, ieParams, orderParams, getUserParams, estornaOpParams, modRegInfoParams, newStatusParam, validateParams, testeWPParams, dtEntregaAvParams } from '../../utils/glpi/params/searchParams';
+import { criarOpParams, ieParams, orderParams, getUserParams, estornaOpParams, modRegInfoParams, newStatusParam, validateParams, testeWPParams, dtEntregaAvParams, dtEntregaOvParams } from '../../utils/glpi/params/searchParams';
 import { searchItems, getUserInfo } from '../../services/glpi/searchService';
 import { getApprovalDate } from '../../utils/glpi/functions/getApprovalDate';
 import { generateErrorContentOp, generateSuccessContentOp, generateErrorContentIe, generateSuccessContentIe, generateSuccessContentEstornaOp, generateErrorContentEstornaOp, generateSuccessContentModRegInfo, generateErrorContentModRegInfo } from '../../utils/glpi/html/ticketHtml';
@@ -20,7 +20,7 @@ import { verificaValidacaoGrupo } from '../../utils/glpi/functions/validacaoGrup
 
 export const getTicketsValidated = async (req: FastifyRequest, res: FastifyReply) => {
     const { type } = req.params as { type?: string };
-    console.log('type', type)
+    //console.log('type', type)
     let response: SchemaResponse = { status: 0, message: '' }; // Inicialize a variável response
 
     let paramsByType = {};
@@ -47,8 +47,11 @@ export const getTicketsValidated = async (req: FastifyRequest, res: FastifyReply
             paramsByType = modRegInfoParams();
             break;
         case 'dtentregaav':
-            console.log('entrou no dtentregaav')
             paramsByType = dtEntregaAvParams();
+            needValidate = validateParams();
+            break;
+        case 'dtentregaov':
+            paramsByType = dtEntregaOvParams();
             needValidate = validateParams();
             break;
         default:
@@ -112,7 +115,7 @@ export const getTicketsValidated = async (req: FastifyRequest, res: FastifyReply
     const validationResult = ticketSchema.safeParse(mappedTickets);
     //console.log('mappedTickets', mappedTickets)
 
-    console.log('validationResult', validationResult)
+    //console.log('validationResult', validationResult)
     if (!validationResult.success) {
         return res.status(400).send({ error: 'Validation failed', details: validationResult.error.errors });
     }
@@ -173,22 +176,17 @@ export const solutionTicket = async (req: FastifyRequest, res: FastifyReply) => 
         if (errorStatuses.includes(setApprovalDate.status)) {
             return res.status(setApprovalDate.status).send(setApprovalDate);
         }
-        console.log('passou do setApprovalDate')
 
         const solutionTicket = await solTicket(solutionPayload);
 
         if (errorStatuses.includes(solutionTicket.status)) {
             return res.status(solutionTicket.status).send(solutionTicket);
         }
-        console.log('passou do solutionTicket')
         const closeTicket = await updateTicket(cleanId, closePayload);
 
         if (errorStatuses.includes(closeTicket.status)) {
             return res.status(closeTicket.status).send(closeTicket);
         }
-
-        console.log('passou do closeTicket')
-
         return res.status(closeTicket.status).send(closeTicket);
     } catch (error) {
         console.error('Erro ao solucionar o ticket:', (error as any).message);
@@ -200,7 +198,7 @@ export const solutionTicket = async (req: FastifyRequest, res: FastifyReply) => 
 
 // ENDPOINT PARA ADICIONAR ACOMPANHAMENTO
 export const addTicketFollowUp = async (req: FastifyRequest, res: FastifyReply) => {
-    console.log('entrou aqui porra')
+
     const { id } = req.params as { id: string };
     const { content, error, type, alert, solve, close } = req.body as AdicionaAcompanhamentoSchema;
     // Validação do ticketId
@@ -227,7 +225,7 @@ export const addTicketFollowUp = async (req: FastifyRequest, res: FastifyReply) 
     if (!solve && !close) {
         return await handleFollowUp(res, ticketId, content, error, alert, errorStatuses);
     } else if (close) {
-        console.log('caiu no close')
+
         return await handleClose(res, ticketId, conteudo, errorStatuses);
     } else if (solve) {
         return await handleSolve(res, ticketId, conteudo, errorStatuses);
@@ -239,7 +237,6 @@ export const reqValidateTicket = async (req: FastifyRequest, res: FastifyReply) 
     const { user_validate_id, conteudo, group } = req.body as SolicitaValidacaoSchema;
     const groupType = 'Group_User';
 
-    console.log('entremo')
 
     const ticketId = parseInt(String(id).replace(/[^0-9]/g, ''));
 
@@ -277,8 +274,6 @@ export const reqValidateTicket = async (req: FastifyRequest, res: FastifyReply) 
                 message: 'Grupo não encontrado',
             } as SchemaResponse);
         }
-
-        console.log('groupId', groupId)
 
         const groupUsers = await getGroupInfo(groupId, groupType)
         if (errorStatuses.includes(groupUsers.status)) {
@@ -339,7 +334,6 @@ export const getValidationsTicket = async (req: FastifyRequest, res: FastifyRepl
             (validations as TicketValidation[]).map(async (validation: TicketValidation) => {
                 try {
                     const userGroups = await getUserGroups(validation.users_id_validate);
-                    console.log('userGroups para validation:', userGroups);
                     return transformValidations([validation], userGroups)[0];
                 } catch (error) {
                     console.error('Erro ao processar validation:', validation, 'Erro:', error);
@@ -348,12 +342,9 @@ export const getValidationsTicket = async (req: FastifyRequest, res: FastifyRepl
             })
         );
 
-        console.log('chegou depois do transformed', transformedValidations);
-
         const grupoIdValidacao: number = await getGroupIdByName(grupo);
         const statusValidacaoGrupo = verificaValidacaoGrupo(transformedValidations, grupoIdValidacao);
 
-        console.log('statusValidacaoGrupo', statusValidacaoGrupo);
         return res.status(200).send({ status: statusValidacaoGrupo });
     } catch (error: any) {
         console.error('Erro no processamento geral:', error);
@@ -365,8 +356,6 @@ export const getValidationsTicket = async (req: FastifyRequest, res: FastifyRepl
 export const createNewTicket = async (req: FastifyRequest, res: FastifyReply) => {
     const { name, content, itilcategories_id, _users_id_requester, _groups_id_assign, type } = req.body as NewTicketSchema;
     let subject = name
-    console.log('subject', subject)
-    console.log('content', content)
     const newTicketPayload = createNewTicketPayload(name, content, itilcategories_id, _users_id_requester, _groups_id_assign);
 
     const newTicketResponse = await newTicket(newTicketPayload);

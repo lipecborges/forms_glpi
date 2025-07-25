@@ -8,6 +8,10 @@ export const newStatusParam = (): SearchParams => ({
     'criteria[1][field]': 12, // Campo status do chamado
     'criteria[1][searchtype]': 'equals',
     'criteria[1][value]': 1, // 1 = Novo
+    'criteria[2][link]': 'OR',
+    'criteria[2][field]': 12, // Campo status do chamado
+    'criteria[2][searchtype]': 'equals',
+    'criteria[2][value]': 2, // 2 = Em atendimento (Atribuído)
 });
 
 // Função para criar o payload de fechamento
@@ -65,6 +69,13 @@ export const dtEntregaAvParams = (): SearchParams => ({
     'criteria[2][field]': 7, // Campo Modelo ITIL no chamado
     'criteria[2][searchtype]': 'contains',
     'criteria[2][value]': '2 - Ti - Sistemas > Suporte Interno > Automações > GLPI x SAP > Comercial > Alterar Data de Entrega da Loja', // Valor do campo Modelo ITIL
+});
+
+export const dtEntregaOvParams = (): SearchParams => ({
+    'criteria[2][link]': 'AND',
+    'criteria[2][field]': 7, // Campo Modelo ITIL no chamado
+    'criteria[2][searchtype]': 'contains',
+    'criteria[2][value]': '2 - Ti - Sistemas > Suporte Interno > Automações > GLPI x SAP > Comercial > Alterar Data de Entrega da Ordem de Venda', // Valor do campo Modelo ITIL
 });
 
 export const pendingValidationParams = (): SearchParams => ({
