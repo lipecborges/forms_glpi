@@ -9,7 +9,7 @@ export const getGroupIdByName = async (group_name: GroupName): Promise<number> =
     try {
         const row = await glpiPrismaClient.glpi_groups.findFirst({
             where: {
-                name: {
+                completename: {
                     equals: group_name,
                 },
             },

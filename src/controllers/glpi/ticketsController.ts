@@ -17,6 +17,8 @@ import { TicketValidation } from '../../types/glpi/ticketsTypes';
 import { generateContent, handleClose, handleFollowUp, handleSolve } from '../../utils/glpi/functions/ticketFunctions'
 import { GrupoId } from '../../types/glpi/ieTypes';
 import { verificaValidacaoGrupo } from '../../utils/glpi/functions/validacaoGrupo';
+import { getValidationPercent } from '../../utils/glpi/functions/validationPercent';
+
 
 export const getTicketsValidated = async (req: FastifyRequest, res: FastifyReply) => {
     const { type } = req.params as { type?: string };
@@ -26,6 +28,8 @@ export const getTicketsValidated = async (req: FastifyRequest, res: FastifyReply
     let paramsByType = {};
     let needValidate
     const itemType = 'Ticket';
+
+    console.log('chegou no getTicketsValidated');
 
     // Parâmetros padrões de pesquisa
     const defaultParams = newStatusParam();
@@ -52,7 +56,7 @@ export const getTicketsValidated = async (req: FastifyRequest, res: FastifyReply
             break;
         case 'dtentregaov':
             paramsByType = dtEntregaOvParams();
-            needValidate = validateParams();
+            //needValidate = validateParams();
             break;
         default:
             response.status = 400;
@@ -94,6 +98,27 @@ export const getTicketsValidated = async (req: FastifyRequest, res: FastifyReply
         return res.status(userInfo.status).send(userInfo);
     }
 
+    const validations = await validationsTicket(ticketId);
+
+
+    if ('status' in validations && errorStatuses.includes(validations.status)) {
+        return res.status(validations.status).send(validations);
+    }
+
+    const transformedValidations = await Promise.all(
+        (validations as TicketValidation[]).map(async (validation: TicketValidation) => {
+            try {
+                const userGroups = await getUserGroups(validation.users_id_validate);
+                return transformValidations([validation], userGroups)[0];
+            } catch (error) {
+                console.error('Erro ao processar validation:', validation, 'Erro:', error);
+                throw error; // Rejeita para o Promise.all
+            }
+        })
+    );
+
+    const percentValidation = getValidationPercent(transformedValidations);
+
     // Mapeia os dados para o esquema ticketSchema
     const mappedTickets: TicketSchema[] = ticketsValidated.data.map((ticket: Ticket) => ({
         id: ticket['2'],
@@ -102,6 +127,7 @@ export const getTicketsValidated = async (req: FastifyRequest, res: FastifyReply
         date_creation: ticket['15'],
         approval_status: ticket['55'],
         status: ticket['12'],
+        percent_validation: percentValidation,
         requester: {
             id: userInfo['2'],
             name: `${userInfo['1']} ${userInfo['34']}`,
@@ -223,9 +249,8 @@ export const addTicketFollowUp = async (req: FastifyRequest, res: FastifyReply) 
 
     // Processa a lógica do ticket
     if (!solve && !close) {
-        return await handleFollowUp(res, ticketId, content, error, alert, errorStatuses);
+        return await handleFollowUp(res, ticketId, content, error, alert, errorStatuses, type);
     } else if (close) {
-
         return await handleClose(res, ticketId, conteudo, errorStatuses);
     } else if (solve) {
         return await handleSolve(res, ticketId, conteudo, errorStatuses);
@@ -323,6 +348,7 @@ export const getValidationsTicket = async (req: FastifyRequest, res: FastifyRepl
         } as SchemaResponse);
     }
 
+
     const validations = await validationsTicket(ticketId);
 
 
@@ -342,6 +368,7 @@ export const getValidationsTicket = async (req: FastifyRequest, res: FastifyRepl
             })
         );
 
+        console.log('Grupo para validação:', grupo);
         const grupoIdValidacao: number = await getGroupIdByName(grupo);
         const statusValidacaoGrupo = verificaValidacaoGrupo(transformedValidations, grupoIdValidacao);
 

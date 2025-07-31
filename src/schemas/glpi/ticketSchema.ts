@@ -15,6 +15,7 @@ export const ticketSchema = z.array(
             z.array(z.string())   // Ou um array de strings
         ]).optional().nullable(), // Pode ser undefined ou null
         status: z.number(),
+        percent_validation: z.number().optional(),
         requester: z.object({
             id: z.number(),
             name: z.string(),
@@ -63,7 +64,7 @@ export const solicitaValidacaoSchema = z.object({
 export const adicionaAcompanhamentoSchema = z.object({
     content: z.string(),
     error: z.string().optional(),
-    type: z.enum(['criaOp', 'estornaOp', 'ie', 'regInfo', 'dtentregaav']),
+    type: z.enum(['criaOp', 'estornaOp', 'ie', 'regInfo', 'dtentregaav', 'dtentregaov']),
     alert: z.string().optional(),
     solve: z.boolean().optional(),
     close: z.boolean().optional(),

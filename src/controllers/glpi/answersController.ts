@@ -8,14 +8,19 @@ export const getAnswers = async (req: FastifyRequest, reply: FastifyReply) => {
     //const { id } = req.query as { id?: string };
     const { id } = req.params as { id?: string };
 
+    console.log('id', id);
     if (id) {
 
         const ticketsId = id.split(',').map(id => parseInt(id.trim())).filter(id => !isNaN(id));
         const answersId = await getAnswersByTicketIds(ticketsId);
+
+        console.log('answersId:', JSON.stringify(answersId, null, 2));
         // Mapeia o array de objetos para um array de IDs
         const answerId = answersId.map(item => item.items_id)
         // Busca as respostas do formulário utilizando os ID das resposta, pego no ticket.
         const answers = await getAnswersById(answerId);
+
+        //console.log('answers:', JSON.stringify(answers, null, 2));
 
         //return console.log('answers:', JSON.stringify(answers, null, 2));
         const translatedAnswers = await translateAnswers(answers);

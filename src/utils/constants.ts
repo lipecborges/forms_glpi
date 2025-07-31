@@ -3,6 +3,8 @@ dotenv.config(); // Carrega as variáveis de ambiente do arquivo .env
 
 export const ENV = process.env.NODE_ENV || 'development';
 
+console.log(`Ambiente: ${ENV}`);
+
 export const PORT = process.env.PORT;
 export const serverAddress = process.env.SERVER_ADDRESS;
 
@@ -10,6 +12,8 @@ export const serverAddress = process.env.SERVER_ADDRESS;
 export const GLPI_API_BASE_URL = ENV === 'production' ? process.env.PRD_API_GLPI_BASE_URL : process.env.DEV_API_GLPI_BASE_URL;
 export const GLPI_APP_TOKEN = ENV === 'production' ? process.env.PRD_API_GLPI_APP_TOKEN : process.env.DEV_API_GLPI_APP_TOKEN;
 export const GLPI_USER_TOKEN = ENV === 'production' ? process.env.PRD_API_GLPI_USER_TOKEN : process.env.DEV_API_GLPI_USER_TOKEN;
+
+console.log(`GLPI API Base URL: ${GLPI_API_BASE_URL}`);
 
 export const baseUrl = `http://${serverAddress}:${PORT}`;
 
