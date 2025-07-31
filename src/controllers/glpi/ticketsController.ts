@@ -29,8 +29,6 @@ export const getTicketsValidated = async (req: FastifyRequest, res: FastifyReply
     let needValidate
     const itemType = 'Ticket';
 
-    console.log('chegou no getTicketsValidated');
-
     // Parâmetros padrões de pesquisa
     const defaultParams = newStatusParam();
     // Parâmetros de ordenação
@@ -333,8 +331,6 @@ export const reqValidateTicket = async (req: FastifyRequest, res: FastifyReply) 
         statusPayload = addStatusPayload(1);
         const adicionaStatus = await updateTicket(ticketId, statusPayload);
 
-        console.log('adicionaStatus', adicionaStatus)
-
         if (errorStatuses.includes(adicionaStatus.status)) {
             return res.status(adicionaStatus.status).send(adicionaStatus);
         }
@@ -381,7 +377,6 @@ export const getValidationsTicket = async (req: FastifyRequest, res: FastifyRepl
             })
         );
 
-        console.log('Grupo para validação:', grupo);
         const grupoIdValidacao: number = await getGroupIdByName(grupo);
         const statusValidacaoGrupo = verificaValidacaoGrupo(transformedValidations, grupoIdValidacao);
 
