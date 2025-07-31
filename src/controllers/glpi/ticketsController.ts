@@ -333,6 +333,8 @@ export const reqValidateTicket = async (req: FastifyRequest, res: FastifyReply) 
         statusPayload = addStatusPayload(1);
         const adicionaStatus = await updateTicket(ticketId, statusPayload);
 
+        console.log('adicionaStatus', adicionaStatus)
+
         if (errorStatuses.includes(adicionaStatus.status)) {
             return res.status(adicionaStatus.status).send(adicionaStatus);
         }
