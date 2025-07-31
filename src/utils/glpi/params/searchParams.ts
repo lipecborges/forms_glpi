@@ -16,10 +16,10 @@ export const newStatusParam = (): SearchParams => ({
 
 // Função para criar o payload de fechamento
 export const validateParams = (): SearchParams => ({
-    'criteria[1][link]': 'AND',
-    'criteria[0][field]': 55, // Campo status da aprovação
-    'criteria[0][searchtype]': 'equals',
-    'criteria[0][value]': 3, // 3 = Aprovado
+    'criteria[3][link]': 'AND',
+    'criteria[3][field]': 55, // Campo status da aprovação
+    'criteria[3][searchtype]': 'equals',
+    'criteria[3][value]': 3, // 3 = Aprovado
 });
 
 // Função para filtrar ticket a partir do ID
@@ -72,10 +72,10 @@ export const dtEntregaAvParams = (): SearchParams => ({
 });
 
 export const dtEntregaOvParams = (): SearchParams => ({
-    'criteria[2][link]': 'AND',
-    'criteria[2][field]': 7, // Campo Modelo ITIL no chamado
-    'criteria[2][searchtype]': 'contains',
-    'criteria[2][value]': '2 - Ti - Sistemas > Suporte Interno > Automações > GLPI x SAP > Comercial > Alterar Data de Entrega da Ordem de Venda', // Valor do campo Modelo ITIL
+    'criteria[5][link]': 'AND',
+    'criteria[5][field]': 7, // Campo Modelo ITIL no chamado
+    'criteria[5][searchtype]': 'contains',
+    'criteria[5][value]': '2 - Ti - Sistemas > Suporte Interno > Automações > GLPI x SAP > Comercial > Alterar Data de Entrega da Ordem de Venda', // Valor do campo Modelo ITIL
 });
 
 export const pendingValidationParams = (): SearchParams => ({

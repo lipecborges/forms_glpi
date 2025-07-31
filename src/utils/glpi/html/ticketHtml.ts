@@ -171,3 +171,30 @@ export const generateHtmlinternalErrorContent = (conteudo: SolTicketConteudo) =>
 </body>
 </html>
 `;
+
+// Erro - Inscrição Estadual (Referência)
+export const generateErrorContentDtEntregOv = (alert: SolTicketAlert, error: SolTicketError) => `
+    <div style="font-family: 'Segoe UI', Arial, sans-serif; color: #333; border: 2px solid #dc3545; border-radius: 10px;
+            padding: 25px; background-color: #fef2f2; text-align: center; max-width: 480px; margin: 30px auto; box-shadow: 0 6px
+            12px rgba(0, 0, 0, 0.08);">
+            <h2 style="font-size: 20px; font-weight: 600; color: #b91c1c; margin-bottom: 12px;">✖ Data de Entrega não Atualizada </h2>
+            <p style="font-size: 17px; color: #991b1b; margin-bottom: 15px;"><strong style="color:
+                    #7f1d1d;">${error}</strong></p>
+            ${alert ? `<div style="background-color: #fef3c7; border-left: 4px solid #f59e0b; padding: 10px; margin: 15px auto;
+                border-radius: 5px; font-size: 15px; color: #854d0e;">${alert}</div>` : ''}
+            <small style="font-size: 12px; color: #64748b;">Essa validação foi feita automaticamente pelo sistema.</small>
+        </div>
+`;
+
+// Sucesso - Inscrição Estadual
+export const generateSuccessContentDtEntregOv = (dtEntregOv: SolTicketConteudo, alert: SolTicketAlert) => `
+    <div style="font-family: 'Segoe UI', Arial, sans-serif; color: #333; border: 2px solid #28a745; border-radius: 10px;
+        padding: 25px; background-color: #f0fdf4; text-align: center; max-width: 480px; margin: 30px auto; box-shadow: 0 6px
+        12px rgba(0, 0, 0, 0.08);">
+        <h2 style="font-size: 20px; font-weight: 600; color: #14532d; margin-bottom: 12px;">✔ Data de Entrega (OV) Atualizada com Sucesso!</h2>
+        <p style="font-size: 17px; color: #166534; margin-bottom: 15px;"> <strong style="color: #052e16;">${dtEntregOv}</strong></p>
+        ${alert ? `<div style="background-color: #fffbeb; border-left: 4px solid #facc15; padding: 10px; margin: 15px auto;
+            border-radius: 5px; font-size: 15px; color: #92400e;">⚠️ ${alert}</div>` : ''}
+        <small style="font-size: 12px; color: #64748b;">A Data de Entrega (OV) foi atualizada automaticamente pelo sistema.</small>
+    </div>
+`;

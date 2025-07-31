@@ -26,11 +26,8 @@ export const transformValidations = (
         };
     });
 
-    console.log('transformed antes da validação:', transformed);
-
     try {
         const parsed = validacoesTicketSchema.parse(transformed);
-        console.log('transformed após validação:', parsed);
         return parsed;
     } catch (error) {
         console.error('Erro ao validar transformed com Zod:', error);

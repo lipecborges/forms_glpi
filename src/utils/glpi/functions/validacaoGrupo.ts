@@ -3,9 +3,6 @@ import { ValidacaoTicket } from "../../../types/glpi/ieTypes";
 export const verificaValidacaoGrupo = (validacoes: ValidacaoTicket[], grupoIdValidacao: number): number => {
     for (const statusPrioridade of [3, 4, 2]) {
         for (const validacao of validacoes) {
-            console.log('validacao', validacao);
-            console.log('validacao.status', validacao.status);
-            console.log('grupoIdValidacao', grupoIdValidacao);
 
             // Se o status for 2, retorna diretamente sem verificar o grupo
             if (validacao.status === 2 && statusPrioridade === 2) {
@@ -23,6 +20,5 @@ export const verificaValidacaoGrupo = (validacoes: ValidacaoTicket[], grupoIdVal
             }
         }
     }
-    console.log('Nenhuma condição satisfeita, retornando 1');
     return 1;
 };
