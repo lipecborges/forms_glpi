@@ -8,10 +8,10 @@ export const newStatusParam = (): SearchParams => ({
     'criteria[1][field]': 12, // Campo status do chamado
     'criteria[1][searchtype]': 'equals',
     'criteria[1][value]': 1, // 1 = Novo
-    'criteria[2][link]': 'OR',
-    'criteria[2][field]': 12, // Campo status do chamado
-    'criteria[2][searchtype]': 'equals',
-    'criteria[2][value]': 2, // 2 = Em atendimento (Atribuído)
+    // 'criteria[2][link]': 'OR',
+    // 'criteria[2][field]': 12, // Campo status do chamado
+    // 'criteria[2][searchtype]': 'equals',
+    // 'criteria[2][value]': 2, // 2 = Em atendimento (Atribuído)
 });
 
 // Função para criar o payload de fechamento
