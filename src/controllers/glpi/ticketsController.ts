@@ -5,7 +5,7 @@ import { criarOpParams, ieParams, orderParams, getUserParams, estornaOpParams, m
 import { searchItems, getUserInfo } from '../../services/glpi/searchService';
 import { getApprovalDate } from '../../utils/glpi/functions/getApprovalDate';
 import { generateErrorContentOp, generateSuccessContentOp, generateErrorContentIe, generateSuccessContentIe, generateSuccessContentEstornaOp, generateErrorContentEstornaOp, generateSuccessContentModRegInfo, generateErrorContentModRegInfo } from '../../utils/glpi/html/ticketHtml';
-import { createSolutionPayload, createClosePayload, createSolutionDatePayload, createRequestValidationPayload, ticketFollowUpPayload, createNewTicketPayload, addTechnicalGroupPayload } from '../../utils/glpi/payloads/ticketPayloads';
+import { createSolutionPayload, createClosePayload, createSolutionDatePayload, createRequestValidationPayload, ticketFollowUpPayload, createNewTicketPayload, addTechnicalGroupPayload, addStatusPayload } from '../../utils/glpi/payloads/ticketPayloads';
 import { updateTicket, solTicket, reqTicketValidation, validationsTicket, ticketFollowUp, newTicket } from '../../services/glpi/ticketsService';
 import { getGroupInfo, getUserGroups } from '../../services/glpi/groupsService';
 import type { Ticket } from '../../types/glpi/interfaces';
@@ -319,6 +319,8 @@ export const reqValidateTicket = async (req: FastifyRequest, res: FastifyReply) 
     }
 
     let grupoTecnicoPayload;
+    let statusPayload;
+
 
     if (groupId) {
         grupoTecnicoPayload = addTechnicalGroupPayload(groupId);
@@ -327,6 +329,14 @@ export const reqValidateTicket = async (req: FastifyRequest, res: FastifyReply) 
         if (errorStatuses.includes(adicionaGrupoTecnico.status)) {
             return res.status(adicionaGrupoTecnico.status).send(adicionaGrupoTecnico);
         }
+
+        statusPayload = addStatusPayload(1);
+        const adicionaStatus = await updateTicket(ticketId, statusPayload);
+
+        if (errorStatuses.includes(adicionaStatus.status)) {
+            return res.status(adicionaStatus.status).send(adicionaStatus);
+        }
+
     }
 
     return res.status(200).send({

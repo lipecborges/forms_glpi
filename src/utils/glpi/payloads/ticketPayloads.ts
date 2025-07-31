@@ -71,3 +71,9 @@ export const addTechnicalGroupPayload = (groupId: number): TicketPayload<{ _grou
         status: 1,
     },
 });
+
+export const addStatusPayload = (status: number): TicketPayload<{ status: number }> => ({
+    input: {
+        status,
+    },
+});
