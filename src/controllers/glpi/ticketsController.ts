@@ -319,6 +319,7 @@ export const reqValidateTicket = async (req: FastifyRequest, res: FastifyReply) 
     }
 
     let grupoTecnicoPayload;
+
     if (groupId) {
         grupoTecnicoPayload = addTechnicalGroupPayload(groupId);
         const adicionaGrupoTecnico = await updateTicket(ticketId, grupoTecnicoPayload);

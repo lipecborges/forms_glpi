@@ -65,8 +65,9 @@ export const createNewTicketPayload = (subject: NewTicketSchema['name'], content
     },
 })
 
-export const addTechnicalGroupPayload = (groupId: number): TicketPayload<{ _groups_id_assign: number }> => ({
+export const addTechnicalGroupPayload = (groupId: number): TicketPayload<{ _groups_id_assign: number, status: number }> => ({
     input: {
         _groups_id_assign: groupId,
+        status: 1,
     },
 });
