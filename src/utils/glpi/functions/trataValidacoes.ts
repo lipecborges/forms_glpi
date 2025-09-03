@@ -10,7 +10,7 @@ export const transformValidations = (
         : null;
 
     const transformed = validations.map((validation) => {
-        console.log('validation sendo transformada:', validation);
+        //console.log('validation sendo transformada:', validation);
         return {
             ticket_id: validation.tickets_id,
             user_requester_id: validation.users_id,
