@@ -68,14 +68,14 @@ export const dtEntregaAvParams = (): SearchParams => ({
     'criteria[2][link]': 'AND',
     'criteria[2][field]': 7, // Campo Modelo ITIL no chamado
     'criteria[2][searchtype]': 'contains',
-    'criteria[2][value]': '2 - Ti - Sistemas > Suporte Interno > Automações > GLPI x SAP > Comercial > Alterar Data de Entrega da Loja', // Valor do campo Modelo ITIL
+    'criteria[2][value]': 'Automações > GLPI x SAP > Comercial > Alterar Data de Entrega da Loja', // Valor do campo Modelo ITIL
 });
 
 export const dtEntregaOvParams = (): SearchParams => ({
     'criteria[5][link]': 'AND',
     'criteria[5][field]': 7, // Campo Modelo ITIL no chamado
     'criteria[5][searchtype]': 'contains',
-    'criteria[5][value]': '2 - Ti - Sistemas > Suporte Interno > Automações > GLPI x SAP > Comercial > Alterar Data de Entrega da Ordem de Venda', // Valor do campo Modelo ITIL
+    'criteria[5][value]': 'Automações > GLPI x SAP > Comercial > Alterar Data de Entrega da Ordem de Venda', // Valor do campo Modelo ITIL
 });
 
 export const pendingValidationParams = (): SearchParams => ({

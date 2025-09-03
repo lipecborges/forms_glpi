@@ -15,7 +15,6 @@ import { getGroupIdByName } from '../../models/glpi/groupModel';
 import { transformValidations } from '../../utils/glpi/functions/trataValidacoes';
 import { TicketValidation } from '../../types/glpi/ticketsTypes';
 import { generateContent, handleClose, handleFollowUp, handleSolve } from '../../utils/glpi/functions/ticketFunctions'
-import { GrupoId } from '../../types/glpi/ieTypes';
 import { verificaValidacaoGrupo } from '../../utils/glpi/functions/validacaoGrupo';
 import { getValidationPercent } from '../../utils/glpi/functions/validationPercent';
 
